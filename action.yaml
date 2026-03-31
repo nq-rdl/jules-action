@@ -192,7 +192,13 @@ runs:
 
         echo "session_id=$SESSION_ID" >> "$GITHUB_OUTPUT"
         echo "session_name=$SESSION_NAME" >> "$GITHUB_OUTPUT"
-        echo "response=$BODY" >> "$GITHUB_OUTPUT"
+
+        # Multiline output requires heredoc delimiter
+        {
+          echo "response<<JULES_EOF"
+          echo "$BODY"
+          echo "JULES_EOF"
+        } >> "$GITHUB_OUTPUT"
 
     - name: Delete Jules session
       id: delete
